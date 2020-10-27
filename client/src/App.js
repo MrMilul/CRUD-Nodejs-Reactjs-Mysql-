@@ -6,7 +6,8 @@ class App extends Component {
     super(props),
     this.state = {
       setMovieName: '', 
-      setReview: ''
+      setReview: '', 
+      fetchData:[], 
     }
   }
   handleChange = (event) =>{
@@ -15,7 +16,14 @@ class App extends Component {
   this.setState({
     [nam]: val
 })
-
+}
+componentDidMount(){
+  axios.get("http://localhost:3001/api/get")
+  .then((response)=>{
+    this.setState({
+      fetchData: response.data
+    })
+  })
 }
 submit = ()=>{
   axios.post('http://localhost:3001/api/insert', this.state)
@@ -23,7 +31,16 @@ submit = ()=>{
   console.log(this.state)
 }
   render() {
-   
+    let table = this.state.fetchData.map((val, key)=>{
+      return (
+        <table>
+          <tr>
+            <td key={val.id}>{val.movie_name}</td>
+            <td >{val.movie_review}</td>
+          </tr>
+        </table>
+      )
+    })
     return (
       <div className='App'>
         <h1 >CRUD Application</h1>
@@ -33,8 +50,10 @@ submit = ()=>{
           <label>Review:</label>
           <input name='setReview' placeholder='Review' onChange={this.handleChange}/>
         </div>
+        <button onClick={this.submit}>Submit</button> <br/><br/>
 
-        <button onClick={this.submit}>Submit</button>
+          {table}
+        
       </div>
       
 
