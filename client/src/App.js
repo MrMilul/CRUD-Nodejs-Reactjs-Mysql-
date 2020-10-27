@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 import axios from 'axios';
+import {Table, Button, Container } from 'react-bootstrap'
+
 class App extends Component {
   constructor(props){
     super(props),
@@ -33,13 +35,14 @@ submit = ()=>{
   render() {
     let table = this.state.fetchData.map((val, key)=>{
       return (
-        <table>
-          <tr>
-            <td key={val.id}>{val.movie_name}</td>
-            <td >{val.movie_review}</td>
-          </tr>
-        </table>
-      )
+            <React.Fragment>
+              <tr>
+                <td>{val.id}</td>
+                <td>{val.movie_name}</td>
+                <td>{val.movie_review}</td>
+              </tr>
+            </React.Fragment>
+            )
     })
     return (
       <div className='App'>
@@ -50,9 +53,23 @@ submit = ()=>{
           <label>Review:</label>
           <input name='setReview' placeholder='Review' onChange={this.handleChange}/>
         </div>
-        <button onClick={this.submit}>Submit</button> <br/><br/>
+        <Button className='my-2' variant="primary" onClick={this.submit}>Submit</Button> <br/><br/>
 
-          {table}
+        <Container>
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Movie Name</th>
+              <th>Movie Review</th>
+            </tr>
+          </thead>
+          <tbody>
+            {table}
+          </tbody>
+       </Table>
+       </Container>
+         
         
       </div>
       
