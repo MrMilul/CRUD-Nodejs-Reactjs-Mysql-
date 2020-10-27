@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import axios from 'axios';
-import {Table, Button, Container } from 'react-bootstrap'
+import {Table, Button, Container ,Card, Row } from 'react-bootstrap'
 
 class App extends Component {
   constructor(props){
@@ -33,14 +33,19 @@ submit = ()=>{
   console.log(this.state)
 }
   render() {
-    let table = this.state.fetchData.map((val, key)=>{
+    let card = this.state.fetchData.map((val, key)=>{
       return (
             <React.Fragment>
-              <tr>
-                <td>{val.id}</td>
-                <td>{val.movie_name}</td>
-                <td>{val.movie_review}</td>
-              </tr>
+             <Card style={{ width: '18rem' }} className='m-2'>
+              <Card.Body>
+                 <Card.Title>{val.movie_name}</Card.Title>
+                <Card.Text>
+                 {val.movie_review}
+                </Card.Text>
+                <Button className='m-2'>Edit</Button>
+                <Button>Delete</Button>
+              </Card.Body>
+            </Card>
             </React.Fragment>
             )
     })
@@ -56,20 +61,11 @@ submit = ()=>{
         <Button className='my-2' variant="primary" onClick={this.submit}>Submit</Button> <br/><br/>
 
         <Container>
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Movie Name</th>
-              <th>Movie Review</th>
-            </tr>
-          </thead>
-          <tbody>
-            {table}
-          </tbody>
-       </Table>
-       </Container>
-         
+          <Row>
+           {card}
+          </Row>
+        </Container>
+                
         
       </div>
       
