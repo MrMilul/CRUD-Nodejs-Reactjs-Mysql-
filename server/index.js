@@ -15,6 +15,14 @@ app.use(cors())
 app.use(express.json())
 app.use(bodyParser.urlencoded({extended: true}))
 
+app.get('/api/get', (req, res)=>{
+  
+  const SelectQuery = " SELECT * FROM  movie_review" ;
+
+  db.query(SelectQuery, (err, result)=>{
+    res.send(result)
+  })
+})
 
 app.post("/api/insert", (req, res)=>{
 
@@ -24,11 +32,9 @@ app.post("/api/insert", (req, res)=>{
     const InsertQuery = "INSERT INTO movie_review (movie_name, movie_review) VALUES (?, ?)";
 
     db.query(InsertQuery,[movieName,movieReview],(err, result)=>{
-      console.log(err)
+      console.log(result)
     })
    
 })
 
-app.listen('3001', ()=>{
-  console.log('runing on the 3001 port')
-})
+app.listen('3001', ()=>{})
