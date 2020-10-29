@@ -10,15 +10,24 @@ class App extends Component {
       setMovieName: '', 
       setReview: '', 
       fetchData:[], 
+      reviewUpdate: ''
     }
   }
+
   handleChange = (event) =>{
   let nam = event.target.name; 
   let val = event.target.value
   this.setState({
     [nam]: val
 })
+ }
+
+handleChange2 = (event) =>{
+  this.setState({
+    reviewUpdate: event.target.value
+})
 }
+
 componentDidMount(){
   axios.get("http://localhost:3001/api/get")
   .then((response)=>{
@@ -27,10 +36,21 @@ componentDidMount(){
     })
   })
 }
+
 submit = ()=>{
   axios.post('http://localhost:3001/api/insert', this.state)
   .then(()=>{alert('success post')})
   console.log(this.state)
+}
+
+delete = (id) =>{
+  if(confirm("Do you want to delete? " )){
+  axios.delete(`http://localhost:3001/api/delete/${id}`) 
+  }
+}
+
+edit = (id)=>{
+  axios.put(`http://localhost:3001/api/update/${id}`, this.state)
 }
   render() {
     let card = this.state.fetchData.map((val, key)=>{
@@ -42,8 +62,9 @@ submit = ()=>{
                 <Card.Text>
                  {val.movie_review}
                 </Card.Text>
-                <Button className='m-2'>Edit</Button>
-                <Button>Delete</Button>
+                <Button className='m-2' onClick={()=>{this.edit(val.id)}}>Edit</Button>
+                <Button onClick={()=>{this.delete(val.id)}}>Delete</Button>
+                <input name='reviewUpdate' onChange={this.handleChange2} placeholder='Update Review'></input>
               </Card.Body>
             </Card>
             </React.Fragment>

@@ -37,4 +37,26 @@ app.post("/api/insert", (req, res)=>{
    
 })
 
+app.delete("/api/delete/:movieId", (req, res)=>{
+
+  const movieId = req.params.movieId;
+
+  const DeleteQuery = "DELETE FROM movie_review WHERE id = ?";
+
+  db.query(DeleteQuery, movieId, (err, result) => {
+    if(err) console.log(err);
+  })
+})
+
+app.put("/api/update/:movieId", (req, res)=>{
+
+  const movieReview = req.body.reviewUpdate;
+  const movieId = req.params.movieId;
+  const UpdateQuery = "UPDATE movie_review SET  movie_review = ? WHERE id = ?";
+
+  db.query(UpdateQuery, [movieReview, movieId], (err, result)=>{
+    if(err) console.log(err)
+  })
+})
+
 app.listen('3001', ()=>{})
